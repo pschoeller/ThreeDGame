@@ -30,6 +30,14 @@ public class Camera {
 		if(Keyboard.isKeyDown(Keyboard.KEY_D)){
 			position.x += 0.02f;
 		}
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_PRIOR)){
+			position.y += 0.02f;
+		}
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_NEXT)){
+			position.y -= 0.02f;
+		}
 	}
 
 
