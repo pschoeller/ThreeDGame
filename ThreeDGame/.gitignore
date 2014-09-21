@@ -1,4 +1,9 @@
 /bin/
+<<<<<<< HEAD
 /.classpath
 /.settings/
+=======
+/.settings/
+/.classpath
+>>>>>>> updated gitignore
 /.project
