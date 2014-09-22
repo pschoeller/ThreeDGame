@@ -12,8 +12,9 @@ import renderEngine.OBJLoader;
 import renderEngine.Renderer;
 import shaders.StaticShader;
 import textures.ModelTexture;
-import entities.Entity;
 import entities.Camera;
+import entities.Entity;
+import entities.Light;
 
 public class MainGameLoop {
 
@@ -26,16 +27,18 @@ public class MainGameLoop {
 		
 		
 		
-		RawModel model = OBJLoader.loadObjModel("stall", loader);
-		TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("stallTexture")));
+		RawModel model = OBJLoader.loadObjModel("dragon", loader);
+		TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("texture2048")));
 		Entity entity = new Entity(staticModel, new Vector3f(0,0,-25), 0, 0, 0, 1);
 		Camera camera = new Camera();
+		Light light = new Light(new Vector3f(0, 0, -20), new Vector3f(1, 1, 1));
 		
 		while(!Display.isCloseRequested()){
 			entity.increaseRotation(0, 0.5f, 0);
 			camera.move();
 			renderer.prepare();
 			shader.start();
+			shader.loadLightPosition(light);
 			shader.loadViewMatrix(camera);
 			renderer.render(entity, shader);
 			shader.stop();
