@@ -1,9 +1,3 @@
-/bin/
-<<<<<<< HEAD
-/.classpath
-/.settings/
-=======
-/.settings/
-/.classpath
->>>>>>> updated gitignore
-/.project
+bin/
+.classpath
+.project
