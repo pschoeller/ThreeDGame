@@ -15,28 +15,30 @@ public class Camera {
 	
 	
 	public void move(){
+		float deltaFactor = 0.04f;
+		
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
-			position.z -= 0.02f;
+			position.z -= deltaFactor;
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_S)){
-			position.z += 0.02f;
+			position.z += deltaFactor;
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_A)){
-			position.x -= 0.02f;
+			position.x -= deltaFactor;
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_D)){
-			position.x += 0.02f;
+			position.x += deltaFactor;
 		}
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_PRIOR)){
-			position.y += 0.02f;
+		if(Keyboard.isKeyDown(Keyboard.KEY_UP)){
+			position.y += deltaFactor;
 		}
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_NEXT)){
-			position.y -= 0.02f;
+		if(Keyboard.isKeyDown(Keyboard.KEY_DOWN)){
+			position.y -= deltaFactor;
 		}
 	}
 
