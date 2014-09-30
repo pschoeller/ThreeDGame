@@ -9,7 +9,11 @@ public class Light {
 	
 	
 	
+<<<<<<< HEAD
 	public Light(Vector3f position, Vector3f color) { 
+=======
+	public Light(Vector3f position, Vector3f color) {
+>>>>>>> status
 		this.position = position;
 		this.color = color;
 	}
