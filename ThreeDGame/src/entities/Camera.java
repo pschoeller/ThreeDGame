@@ -15,7 +15,6 @@ public class Camera {
 	
 	
 	public void move(){
-<<<<<<< HEAD
 		float deltaFactor = 0.04f;
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
@@ -32,7 +31,7 @@ public class Camera {
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_D)){
 			position.x += deltaFactor;
-=======
+		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
 			position.z -= deltaRate;
@@ -56,7 +55,6 @@ public class Camera {
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_PRIOR)){
 			position.y += deltaRate;
->>>>>>> 89c80314f0df00a2f5df6dd6489b6025cad135fb
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_UP)){
