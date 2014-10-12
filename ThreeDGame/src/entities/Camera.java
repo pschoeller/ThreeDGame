@@ -3,6 +3,7 @@ package entities;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 
+
 public class Camera {
 	
 	private Vector3f position = new Vector3f(0, 0, 0);
@@ -19,7 +20,25 @@ public class Camera {
 	}
 	
 	
+
 	public void move(){
+		float deltaFactor = 0.04f;
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
+			position.z -= deltaFactor;
+		}
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_S)){
+			position.z += deltaFactor;
+		}
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_A)){
+			position.x -= deltaFactor;
+		}
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_D)){
+			position.x += deltaFactor;
+		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
 			position.z -= deltaRate;
@@ -51,6 +70,10 @@ public class Camera {
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_DOWN)){
 			pitch += deltaRate;
+		}
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_DOWN)){
+			position.y -= deltaFactor;
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_LEFT)){
