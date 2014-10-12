@@ -14,6 +14,7 @@ import renderEngine.DisplayManager;
 import renderEngine.Loader;
 import renderEngine.MasterRenderer;
 import renderEngine.OBJLoader;
+import terrains.Terrain;
 import textures.ModelTexture;
 import entities.Camera;
 import entities.Entity;
@@ -26,32 +27,19 @@ public class MainGameLoop {
 		Loader loader = new Loader();
 		RawModel model = OBJLoader.loadObjModel("dragon", loader);
 		TexturedModel dragonModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white1024")));
-		//ModelTexture texture = staticModel.getTexture();
-		//texture.setShineDamper(10);
-		//texture.setReflectivity(1);
-		//Entity entity = new Entity(staticModel, new Vector3f(0,0,-25), 0, 0, 0, 1);
-		Camera camera = new Camera();
+		Camera camera = new Camera(new Vector3f(100, 50, 350));
 		Light light = new Light(new Vector3f(3000, 2000, 3000), new Vector3f(1, 1, 1));
 		
-		List<Entity> allDragons = new ArrayList<Entity>();
-		Random random = new Random();
-		
-		for(int i=0; i<100; i++){
-			float x = random.nextFloat() * 100 - 50;
-			float y = random.nextFloat() * 100 - 50;
-			float z = random.nextFloat() * -300;
-			allDragons.add(new Entity(dragonModel, new Vector3f(x, y, z), random.nextFloat() * 180f, random.nextFloat() * 180f, 0f, 1f));
-		}
-		
+		Terrain terrain = new Terrain(0, 0, loader, new ModelTexture(loader.loadTexture("09")));
+		Terrain terrain2 = new Terrain(1, 0, loader, new ModelTexture(loader.loadTexture("09")));
 		
 		MasterRenderer renderer = new MasterRenderer();
 		
 		while(!Display.isCloseRequested()){
 			camera.move();
 			
-			for(Entity dragon : allDragons){
-				renderer.processEntity(dragon);
-			}
+			renderer.processTerrain(terrain);
+			renderer.processTerrain(terrain2);
 			
 			renderer.render(light, camera);
 			DisplayManager.updateDisplay();

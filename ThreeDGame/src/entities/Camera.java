@@ -5,12 +5,17 @@ import org.lwjgl.util.vector.Vector3f;
 
 public class Camera {
 	
-	private Vector3f position = new Vector3f(0,0,0);
+	private Vector3f position = new Vector3f(0, 0, 0);
 	private float pitch, yaw, roll, deltaRate=0.5f;
 	
 	
 	public Camera(){
 		
+	}
+	
+	
+	public Camera(Vector3f position){
+		this.position = position;
 	}
 	
 	
@@ -40,13 +45,22 @@ public class Camera {
 			position.y += deltaRate;
 		}
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_PRIOR)){
-			position.y += 0.02f;
+		if(Keyboard.isKeyDown(Keyboard.KEY_UP)){
+			pitch -= deltaRate;
 		}
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_NEXT)){
-			position.y -= 0.02f;
+		if(Keyboard.isKeyDown(Keyboard.KEY_DOWN)){
+			pitch += deltaRate;
 		}
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_LEFT)){
+			yaw -= deltaRate;
+		}
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_RIGHT)){
+			yaw += deltaRate;
+		}
+		
 	}
 
 
