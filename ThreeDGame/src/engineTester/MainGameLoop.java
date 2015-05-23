@@ -23,8 +23,8 @@ public class MainGameLoop {
 		Camera camera = new Camera(new Vector3f(100, 50, 350));
 		Light light = new Light(new Vector3f(3000, 2000, 3000), new Vector3f(1, 1, 1));
 		
-		Terrain terrain = new Terrain(0, 0, loader, new ModelTexture(loader.loadTexture("09")));
-		Terrain terrain2 = new Terrain(1, 0, loader, new ModelTexture(loader.loadTexture("09")));
+		Terrain terrain = new Terrain(0, 0, loader, new ModelTexture(loader.loadTexture("texture2048")));
+		//Terrain terrain2 = new Terrain(1, 0, loader, new ModelTexture(loader.loadTexture("09")));
 		
 		MasterRenderer renderer = new MasterRenderer();
 		
@@ -32,7 +32,7 @@ public class MainGameLoop {
 			camera.move();
 			
 			renderer.processTerrain(terrain);
-			renderer.processTerrain(terrain2);
+			//renderer.processTerrain(terrain2);
 			
 			renderer.render(light, camera);
 			DisplayManager.updateDisplay();
