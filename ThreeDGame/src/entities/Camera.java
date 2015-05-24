@@ -22,68 +22,33 @@ public class Camera {
 	
 
 	public void move(){
-		float deltaFactor = 0.04f;
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
-			position.z -= deltaFactor;
-		}
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_S)){
-			position.z += deltaFactor;
-		}
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_A)){
-			position.x -= deltaFactor;
-		}
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_D)){
-			position.x += deltaFactor;
-		}
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_W)){
-			position.z -= deltaRate;
-		}
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_S)){
-			position.z += deltaRate;
-		}
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_A)){
-			position.x -= deltaRate;
-		}
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_D)){
-			position.x += deltaRate;
-		}
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_NEXT)){
-			position.y -= deltaRate;
-		}
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_PRIOR)){
-			position.y += deltaRate;
-		}
-		
 		if(Keyboard.isKeyDown(Keyboard.KEY_UP)){
+			pitch += deltaRate;
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_DOWN)){
 			pitch -= deltaRate;
 		}
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_DOWN)){
-			pitch += deltaRate;
-		}
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_DOWN)){
-			position.y -= deltaFactor;
-		}
-		
 		if(Keyboard.isKeyDown(Keyboard.KEY_LEFT)){
+			yaw += deltaRate;
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_RIGHT)){
 			yaw -= deltaRate;
 		}
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_RIGHT)){
-			yaw += deltaRate;
+		if(Keyboard.isKeyDown(Keyboard.KEY_NUMPAD8)){
+			position.z -= deltaRate;
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_NUMPAD5)){
+			position.z += deltaRate;
 		}
 		
+		if(Keyboard.isKeyDown(Keyboard.KEY_NUMPAD4)){
+			position.x -= deltaRate;
+		}
+		if(Keyboard.isKeyDown(Keyboard.KEY_NUMPAD6)){
+			position.x += deltaRate;
+		}
 	}
 
 

@@ -16,6 +16,7 @@ import org.lwjgl.util.vector.Vector3f;
 import renderEngine.DisplayManager;
 import renderEngine.Loader;
 import renderEngine.MasterRenderer;
+import renderEngine.OBJLoader;
 import terrains.Terrain;
 import textures.ModelTexture;
 import textures.TerrainTexture;
@@ -23,6 +24,7 @@ import textures.TerrainTexturePack;
 import entities.Camera;
 import entities.Entity;
 import entities.Light;
+import entities.Player;
 
 public class MainGameLoop {
 
@@ -31,7 +33,8 @@ public class MainGameLoop {
 		Loader loader = new Loader();
 //		//RawModel model = OBJLoader.loadObjModel("dragon", loader);
 //		//TexturedModel dragonModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white1024")));
-		Camera camera = new Camera(new Vector3f(400, 5, 500));
+		Camera camera = new Camera(new Vector3f(100, 10, 100));
+		//camera.setPitch(5);
 		Light light = new Light(new Vector3f(3000, 5000, 3000), new Vector3f(1, 1, 1));
 		
 		//***********  Terrain Texture  *************//
@@ -87,12 +90,20 @@ public class MainGameLoop {
 			entities.add(new Entity(flower, new Vector3f(random.nextFloat()*800, 0, random.nextFloat()*799), 0, 0, 0, 0.6f));
 		}
 		
+		
+		RawModel bunnyModel = OBJLoader.loadObjModel("stanfordBunny", loader);
+		TexturedModel stanfordBunny = new TexturedModel(bunnyModel, new ModelTexture(loader.loadTexture("white")));
+		
+		Player player = new Player(stanfordBunny, new Vector3f(100, 0, 50), 0, 0, 0, 1);
+		
 		MasterRenderer renderer = new MasterRenderer();
 		
 		
 		while(!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
 			camera.move();
+			player.move();
 			
+			renderer.processEntity(player);
 			renderer.processTerrain(terrain);
 			//renderer.processTerrain(terrain2);
 			for(Entity entity:entities){
