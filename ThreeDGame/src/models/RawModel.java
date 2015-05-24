@@ -1,6 +1,5 @@
 package models;
 
-import objConverter.ModelData;
 
 public class RawModel {
 	

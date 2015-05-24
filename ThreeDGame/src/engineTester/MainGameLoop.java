@@ -16,7 +16,6 @@ import org.lwjgl.util.vector.Vector3f;
 import renderEngine.DisplayManager;
 import renderEngine.Loader;
 import renderEngine.MasterRenderer;
-import renderEngine.OBJLoader;
 import terrains.Terrain;
 import textures.ModelTexture;
 import textures.TerrainTexture;
@@ -58,7 +57,7 @@ public class MainGameLoop {
 		
 		data = OBJFileLoader.loadOBJ("lowPolyTree");
 		RawModel lowPolyTreeModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
-		TexturedModel lowPolyTree = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("tree")));
+		TexturedModel lowPolyTree = new TexturedModel(lowPolyTreeModel, new ModelTexture(loader.loadTexture("tree")));
 		
 		data = OBJFileLoader.loadOBJ("grassModel");
 		RawModel grassModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
