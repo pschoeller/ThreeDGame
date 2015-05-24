@@ -26,14 +26,14 @@ public class OBJLoader {
 		
 		BufferedReader reader = new BufferedReader(fr);
 		String line;
-		List<Vector3f> vertices = new ArrayList<Vector3f>();
-		List<Vector2f> textures = new ArrayList<Vector2f>();
-		List<Vector3f> normals = new ArrayList<Vector3f>();
-		List<Integer> indices = new ArrayList<Integer>();
-		float[] verticesArray = null;
-		float[] normalsArray = null;
-		float[] textureArray = null;
-		int[] indicesArray = null;
+		List<Vector3f> vertices	= new ArrayList<Vector3f>();
+		List<Vector2f> textures	= new ArrayList<Vector2f>();
+		List<Vector3f> normals	= new ArrayList<Vector3f>();
+		List<Integer> indices	= new ArrayList<Integer>();
+		float[] verticesArray	= null;
+		float[] normalsArray	= null;
+		float[] textureArray	= null;
+		int[] indicesArray		= null;
 		
 		try{
 			while(true){
@@ -97,7 +97,7 @@ public class OBJLoader {
 		indices.add(currentVertexPointer);
 		Vector2f currentTex = textures.get(Integer.parseInt(vertexData[1]) - 1);
 		textureArray[currentVertexPointer*2] = currentTex.x;
-		textureArray[currentVertexPointer*2+1] = 1- currentTex.y;
+		textureArray[currentVertexPointer*2+1] = 1 - currentTex.y;
 		Vector3f currentNorm = normals.get(Integer.parseInt(vertexData[2])-1);
 		normalsArray[currentVertexPointer*3] = currentNorm.x;
 		normalsArray[currentVertexPointer*3+1] = currentNorm.y;

@@ -8,8 +8,8 @@ import entities.Light;
 
 public class StaticShader extends ShaderProgram{
 	
-	private static final String VERTEX_FILE = "src/shaders/vertexShader.txt";
-	private static final String FRAGMENT_FILE = "src/shaders/fragmentShader.txt";
+	private static final String VERTEX_FILE		= "src/shaders/vertexShader.txt";
+	private static final String FRAGMENT_FILE	= "src/shaders/fragmentShader.txt";
 	
 	private int location_transformationMatrix;
 	private int location_projectionMatrix;
@@ -35,13 +35,13 @@ public class StaticShader extends ShaderProgram{
 	
 	
 	protected void getAllUniformLocations(){
-		location_transformationMatrix = super.getUniformLocation("transformationMatrix");
-		location_projectionMatrix = super.getUniformLocation("projectionMatrix");
-		location_viewMatrix = super.getUniformLocation("viewMatrix");
-		location_lightPosition = super.getUniformLocation("lightPosition");
-		location_lightColor = super.getUniformLocation("lightColor");
-		location_shineDamper = super.getUniformLocation("shineDamper");
-		location_reflectivity = super.getUniformLocation("reflectivity");
+		location_transformationMatrix	= super.getUniformLocation("transformationMatrix");
+		location_projectionMatrix		= super.getUniformLocation("projectionMatrix");
+		location_viewMatrix				= super.getUniformLocation("viewMatrix");
+		location_lightPosition			= super.getUniformLocation("lightPosition");
+		location_lightColor				= super.getUniformLocation("lightColor");
+		location_shineDamper			= super.getUniformLocation("shineDamper");
+		location_reflectivity			= super.getUniformLocation("reflectivity");
 	}
 	
 	

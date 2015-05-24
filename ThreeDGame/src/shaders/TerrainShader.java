@@ -35,13 +35,13 @@ public class TerrainShader extends ShaderProgram{
 	
 	
 	protected void getAllUniformLocations(){
-		location_transformationMatrix = super.getUniformLocation("transformationMatrix");
-		location_projectionMatrix = super.getUniformLocation("projectionMatrix");
-		location_viewMatrix = super.getUniformLocation("viewMatrix");
-		location_lightPosition = super.getUniformLocation("lightPosition");
-		location_lightColor = super.getUniformLocation("lightColor");
-		location_shineDamper = super.getUniformLocation("shineDamper");
-		location_reflectivity = super.getUniformLocation("reflectivity");
+		location_transformationMatrix	= super.getUniformLocation("transformationMatrix");
+		location_projectionMatrix		= super.getUniformLocation("projectionMatrix");
+		location_viewMatrix				= super.getUniformLocation("viewMatrix");
+		location_lightPosition			= super.getUniformLocation("lightPosition");
+		location_lightColor				= super.getUniformLocation("lightColor");
+		location_shineDamper			= super.getUniformLocation("shineDamper");
+		location_reflectivity			= super.getUniformLocation("reflectivity");
 	}
 	
 	
@@ -58,7 +58,7 @@ public class TerrainShader extends ShaderProgram{
 	
 	public void loadLight(Light light){
 		super.loadVector(location_lightPosition, light.getPosition());
-		super.loadVector(location_lightColor, light.getPosition());
+		super.loadVector(location_lightColor, light.getColor());
 	}	
 		
 		
