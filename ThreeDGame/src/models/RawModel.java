@@ -1,5 +1,7 @@
 package models;
 
+import objConverter.ModelData;
+
 public class RawModel {
 	
 	private int vaoID;
