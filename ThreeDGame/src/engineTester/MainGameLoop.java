@@ -48,7 +48,7 @@ public class MainGameLoop {
 		
 		//*******************************************//
 		
-		Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap);
+		Terrain terrain = new Terrain(0, 0, loader, texturePack, blendMap);
 		
 		
 		ModelData data = OBJFileLoader.loadOBJ("tree");
