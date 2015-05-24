@@ -33,7 +33,7 @@ public class MainGameLoop {
 		Loader loader = new Loader();
 //		//RawModel model = OBJLoader.loadObjModel("dragon", loader);
 //		//TexturedModel dragonModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white1024")));
-		Camera camera = new Camera(new Vector3f(100, 10, 100));
+		
 		//camera.setPitch(5);
 		Light light = new Light(new Vector3f(3000, 5000, 3000), new Vector3f(1, 1, 1));
 		
@@ -95,6 +95,7 @@ public class MainGameLoop {
 		TexturedModel stanfordBunny = new TexturedModel(bunnyModel, new ModelTexture(loader.loadTexture("white")));
 		
 		Player player = new Player(stanfordBunny, new Vector3f(100, 0, 50), 0, 0, 0, 1);
+		Camera camera = new Camera(player);
 		
 		MasterRenderer renderer = new MasterRenderer();
 		
