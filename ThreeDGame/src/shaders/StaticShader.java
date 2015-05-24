@@ -1,6 +1,7 @@
 package shaders;
 
 import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector3f;
 
 import toolbox.Maths;
 import entities.Camera;
@@ -18,6 +19,8 @@ public class StaticShader extends ShaderProgram{
 	private int location_lightColor;
 	private int location_shineDamper;
 	private int location_reflectivity;
+	private int location_useFakeLighting;
+	private int location_skyColor;
 	
 	
 	
@@ -42,6 +45,18 @@ public class StaticShader extends ShaderProgram{
 		location_lightColor				= super.getUniformLocation("lightColor");
 		location_shineDamper			= super.getUniformLocation("shineDamper");
 		location_reflectivity			= super.getUniformLocation("reflectivity");
+		location_useFakeLighting		= super.getUniformLocation("useFakeLighting");
+		location_skyColor				= super.getUniformLocation("skyColor");
+	}
+	
+	
+	public void loadSkyColor(float r, float g, float b){
+		super.loadVector(location_skyColor, new Vector3f(r, g, b));
+	}
+	
+	
+	public void loadFakeLighting(boolean useFake){
+		super.loadBoolean(location_useFakeLighting, useFake);
 	}
 	
 	
@@ -58,14 +73,14 @@ public class StaticShader extends ShaderProgram{
 	
 	public void loadLight(Light light){
 		super.loadVector(location_lightPosition, light.getPosition());
-		super.loadVector(location_lightColor, light.getPosition());
+		super.loadVector(location_lightColor, light.getColor());
 	}	
 		
 		
-	public void loadLightPosition(Light light){
+	/*public void loadLightPosition(Light light){
 		super.loadVector(location_lightPosition, light.getPosition());
 		super.loadVector(location_lightColor, light.getColor());
-	}
+	}*/
 	
 	
 	public void loadViewMatrix(Camera camera){

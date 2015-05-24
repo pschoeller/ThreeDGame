@@ -16,7 +16,7 @@ import terrains.Terrain;
 import textures.ModelTexture;
 import toolbox.Maths;
 
-public class TerrainRenderer {
+public class TerrainRenderer{
 	
 	private TerrainShader shader;
 	
