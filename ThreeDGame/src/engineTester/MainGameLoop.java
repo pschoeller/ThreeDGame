@@ -11,6 +11,7 @@ import objConverter.OBJFileLoader;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import renderEngine.DisplayManager;
@@ -25,6 +26,8 @@ import entities.Camera;
 import entities.Entity;
 import entities.Light;
 import entities.Player;
+import guis.GuiRenderer;
+import guis.GuiTexture;
 
 public class MainGameLoop {
 
@@ -123,6 +126,11 @@ public class MainGameLoop {
 		
 		MasterRenderer renderer = new MasterRenderer();
 		
+		List<GuiTexture> guis = new ArrayList<GuiTexture>();
+		GuiTexture gui = new GuiTexture(loader.loadTexture("socuwan"), new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
+		guis.add(gui);
+		
+		GuiRenderer guiRenderer = new GuiRenderer(loader);
 		
 		while(!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
 			player.move(terrain);
@@ -136,9 +144,11 @@ public class MainGameLoop {
 			}
 			
 			renderer.render(light, camera);
+			guiRenderer.render(guis);
 			DisplayManager.updateDisplay();
 		}
 		
+		guiRenderer.cleanUp();
 		renderer.cleanUp();
 		loader.cleanUp();
 		DisplayManager.closeDisplay();
