@@ -40,6 +40,11 @@ public class MainGameLoop {
 		//camera.setPitch(5);
 		Light light = new Light(new Vector3f(3000, 5000, 3000), new Vector3f(1, 1, 1));
 		
+		List<Light> lights = new ArrayList<Light>();
+		lights.add(light);
+		lights.add(new Light(new Vector3f(-200, 10, 1200), new Vector3f(10, 0, 0)));
+		lights.add(new Light(new Vector3f(200, 10, 200), new Vector3f(0, 0, 10)));
+		
 		//***********  Terrain Texture  *************//
 		
 		TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("grassy"));
@@ -143,7 +148,7 @@ public class MainGameLoop {
 				renderer.processEntity(entity);
 			}
 			
-			renderer.render(light, camera);
+			renderer.render(lights, camera);
 			guiRenderer.render(guis);
 			DisplayManager.updateDisplay();
 		}
