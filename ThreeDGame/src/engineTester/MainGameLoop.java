@@ -42,8 +42,8 @@ public class MainGameLoop {
 		
 		List<Light> lights = new ArrayList<Light>();
 		lights.add(light);
-		lights.add(new Light(new Vector3f(-200, 10, 1200), new Vector3f(10, 0, 0)));
-		lights.add(new Light(new Vector3f(200, 10, 200), new Vector3f(0, 0, 10)));
+		//lights.add(new Light(new Vector3f(-200, 10, 1200), new Vector3f(10, 0, 0)));
+		//lights.add(new Light(new Vector3f(200, 10, 200), new Vector3f(0, 0, 10)));
 		
 		//***********  Terrain Texture  *************//
 		
@@ -65,6 +65,10 @@ public class MainGameLoop {
 		ModelData data = OBJFileLoader.loadOBJ("tree");
 		RawModel treeModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
 		TexturedModel tree = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("tree")));
+		
+		data = OBJFileLoader.loadOBJ("lamp");
+		RawModel lampModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
+		TexturedModel lamp1 = new TexturedModel(lampModel, new ModelTexture(loader.loadTexture("lamp")));
 		
 		data = OBJFileLoader.loadOBJ("lowPolyTree");
 		RawModel lowPolyTreeModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
@@ -101,10 +105,12 @@ public class MainGameLoop {
 			y = terrain.getHeightOfTerrain(x, z);
 			entities.add(new Entity(tree, new Vector3f(x, y, z), 0, 0, 0, 1));
 			
-			x = random.nextFloat()*800;
-			z = random.nextFloat()*799;
-			y = terrain.getHeightOfTerrain(x, z);
-			entities.add(new Entity(lowPolyTree, new Vector3f(x, y, z), 0, 0, 0, 1));
+			if(i % 2 == 0){
+				x = random.nextFloat()*800;
+				z = random.nextFloat()*799;
+				y = terrain.getHeightOfTerrain(x, z);
+				entities.add(new Entity(lowPolyTree, new Vector3f(x, y, z), 0, 0, 0, 1));
+			}
 			
 			x = random.nextFloat()*800;
 			z = random.nextFloat()*799;
@@ -120,13 +126,18 @@ public class MainGameLoop {
 			z = random.nextFloat()*799;
 			y = terrain.getHeightOfTerrain(x, z);
 			entities.add(new Entity(fern, random.nextInt(4), new Vector3f(x, y, z), 0, 0, 0, 0.9f));
+			
 		}
 		
+		float x=200f;
+		float z=200f;
+		float y = terrain.getHeightOfTerrain(x, z);
+		entities.add(new Entity(lamp1, new Vector3f(x, y, z), 0, 0, 0, 1));
 		
 		RawModel playerModel = OBJLoader.loadObjModel("person", loader);
 		TexturedModel textdPlayer = new TexturedModel(playerModel, new ModelTexture(loader.loadTexture("playerTexture")));
 		
-		Player player = new Player(textdPlayer, new Vector3f(100, 0, 50), 0, 0, 0, 1);
+		Player player = new Player(textdPlayer, new Vector3f(200, 0, 175), 0, 0, 0, 1);
 		Camera camera = new Camera(player);
 		
 		MasterRenderer renderer = new MasterRenderer();
