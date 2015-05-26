@@ -6,6 +6,8 @@ import org.lwjgl.util.vector.Vector3f;
 
 public class Camera {
 	
+	private final static float playerHeight = 10;
+	
 	private float distanceFromPlayer = 0;
 	private float angleAroundPlayer = 0;
 	
@@ -69,7 +71,7 @@ public class Camera {
 	
 	
 	private float calculateVerticalDistance(){
-		return (float) (distanceFromPlayer * Math.sin(Math.toRadians(pitch)));
+		return (float) (distanceFromPlayer * Math.sin(Math.toRadians(pitch))) + playerHeight;
 	}
 	
 	

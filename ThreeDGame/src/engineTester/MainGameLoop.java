@@ -34,16 +34,7 @@ public class MainGameLoop {
 	public static void main(String[] args) {
 		DisplayManager.createDisplay();
 		Loader loader = new Loader();
-//		//RawModel model = OBJLoader.loadObjModel("dragon", loader);
-//		//TexturedModel dragonModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("white1024")));
-		
-		//camera.setPitch(5);
-		Light light = new Light(new Vector3f(3000, 5000, 3000), new Vector3f(1, 1, 1));
-		
-		List<Light> lights = new ArrayList<Light>();
-		lights.add(light);
-		//lights.add(new Light(new Vector3f(-200, 10, 1200), new Vector3f(10, 0, 0)));
-		//lights.add(new Light(new Vector3f(200, 10, 200), new Vector3f(0, 0, 10)));
+
 		
 		//***********  Terrain Texture  *************//
 		
@@ -96,7 +87,7 @@ public class MainGameLoop {
 		
 		List<Entity> entities = new ArrayList<Entity>();
 		Random random = new Random();
-		
+		/*
 		for(int i=0; i<400; i++){
 			float x=0, y=0, z=0;
 			
@@ -128,11 +119,16 @@ public class MainGameLoop {
 			entities.add(new Entity(fern, random.nextInt(4), new Vector3f(x, y, z), 0, 0, 0, 0.9f));
 			
 		}
-		
-		float x=200f;
-		float z=200f;
-		float y = terrain.getHeightOfTerrain(x, z);
-		entities.add(new Entity(lamp1, new Vector3f(x, y, z), 0, 0, 0, 1));
+		*/
+		List<Light> lights = new ArrayList<Light>();
+		lights.add(new Light(new Vector3f(3000, 5000, 3000), new Vector3f(0.3f, 0.3f, 0.3f)));
+		lights.add(new Light(new Vector3f(100, terrain.getHeightOfTerrain(100, 300)+10, 300), new Vector3f(2, 0, 0), new Vector3f(1, 0.01f, 0.002f)));
+		lights.add(new Light(new Vector3f(200, terrain.getHeightOfTerrain(200, 300)+10, 300), new Vector3f(0, 2, 2), new Vector3f(1, 0.01f, 0.002f)));
+		lights.add(new Light(new Vector3f(300, terrain.getHeightOfTerrain(300, 300)+10, 300), new Vector3f(2, 2, 0), new Vector3f(1, 0.01f, 0.002f)));
+
+		entities.add(new Entity(lamp1, new Vector3f(100, terrain.getHeightOfTerrain(100, 300), 300), 0, 0, 0, 1));
+		entities.add(new Entity(lamp1, new Vector3f(200, terrain.getHeightOfTerrain(200, 300), 300), 0, 0, 0, 1));
+		entities.add(new Entity(lamp1, new Vector3f(300, terrain.getHeightOfTerrain(300, 300), 300), 0, 0, 0, 1));
 		
 		RawModel playerModel = OBJLoader.loadObjModel("person", loader);
 		TexturedModel textdPlayer = new TexturedModel(playerModel, new ModelTexture(loader.loadTexture("playerTexture")));
@@ -140,13 +136,15 @@ public class MainGameLoop {
 		Player player = new Player(textdPlayer, new Vector3f(200, 0, 175), 0, 0, 0, 1);
 		Camera camera = new Camera(player);
 		
-		MasterRenderer renderer = new MasterRenderer();
 		
 		List<GuiTexture> guis = new ArrayList<GuiTexture>();
-		GuiTexture gui = new GuiTexture(loader.loadTexture("socuwan"), new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
+		GuiTexture gui = new GuiTexture(loader.loadTexture("socuwan"), new Vector2f(0.85f, 0.9f), new Vector2f(0.125f, 0.125f));
+		GuiTexture health = new GuiTexture(loader.loadTexture("health"), new Vector2f(-0.85f, 0.9f), new Vector2f(0.125f, 0.1875f));
 		guis.add(gui);
+		guis.add(health);
 		
 		GuiRenderer guiRenderer = new GuiRenderer(loader);
+		MasterRenderer renderer = new MasterRenderer();
 		
 		while(!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
 			player.move(terrain);
@@ -154,7 +152,6 @@ public class MainGameLoop {
 			
 			renderer.processEntity(player);
 			renderer.processTerrain(terrain);
-			//renderer.processTerrain(terrain2);
 			for(Entity entity:entities){
 				renderer.processEntity(entity);
 			}
