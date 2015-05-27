@@ -14,8 +14,10 @@ uniform sampler2D gTexture;
 uniform sampler2D bTexture;
 uniform sampler2D blendMap;
 
-uniform vec3 lightColor[4];
-uniform vec3 attenuation[4];
+const int MAX_RENDER_LIGHTS=4;
+
+uniform vec3 lightColor[MAX_RENDER_LIGHTS];
+uniform vec3 attenuation[MAX_RENDER_LIGHTS];
 uniform float shineDamper;
 uniform float reflectivity;
 uniform vec3 skyColor;
@@ -38,7 +40,7 @@ void main(void){
 	vec3 totalDiffuse = vec3(0.0);
 	vec3 totalSpecular = vec3(0.0);
 	
-	for(int i=0; i<4; i++){
+	for(int i=0; i<MAX_RENDER_LIGHTS; i++){
 		float distance = length(toLightVector[i]);
 		float attFactor = attenuation[i].x + (attenuation[i].y * distance) + (attenuation[i].z * distance * distance);
 		vec3 unitLightVector = normalize(toLightVector[i]);

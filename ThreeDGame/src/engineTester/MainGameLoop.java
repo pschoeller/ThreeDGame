@@ -87,7 +87,7 @@ public class MainGameLoop {
 		
 		List<Entity> entities = new ArrayList<Entity>();
 		Random random = new Random();
-		/*
+		
 		for(int i=0; i<400; i++){
 			float x=0, y=0, z=0;
 			
@@ -119,7 +119,7 @@ public class MainGameLoop {
 			entities.add(new Entity(fern, random.nextInt(4), new Vector3f(x, y, z), 0, 0, 0, 0.9f));
 			
 		}
-		*/
+		
 		List<Light> lights = new ArrayList<Light>();
 		lights.add(new Light(new Vector3f(3000, 5000, 3000), new Vector3f(0.3f, 0.3f, 0.3f)));
 		lights.add(new Light(new Vector3f(100, terrain.getHeightOfTerrain(100, 300)+10, 300), new Vector3f(2, 0, 0), new Vector3f(1, 0.01f, 0.002f)));
@@ -144,7 +144,7 @@ public class MainGameLoop {
 		guis.add(health);
 		
 		GuiRenderer guiRenderer = new GuiRenderer(loader);
-		MasterRenderer renderer = new MasterRenderer();
+		MasterRenderer renderer = new MasterRenderer(loader);
 		
 		while(!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
 			player.move(terrain);
