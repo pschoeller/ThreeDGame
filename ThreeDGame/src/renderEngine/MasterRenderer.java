@@ -65,6 +65,19 @@ public class MasterRenderer {
 	}
 	
 	
+	public void renderScene(List<Entity> entities, List<Terrain> terrains, List<Light> lights, Camera camera){
+		for(Terrain terrain : terrains){
+			processTerrain(terrain);
+		}
+		
+		for(Entity entity : entities){
+			processEntity(entity);
+		}
+		
+		render(lights, camera);
+	}
+	
+	
 	public void render(List<Light> lights, Camera camera){
 		prepare();
 		shader.start();
@@ -130,5 +143,10 @@ public class MasterRenderer {
 	public void cleanUp(){
 		shader.cleanUp();
 		terrainShader.cleanUp();
+	}
+	
+	
+	public Matrix4f getProjectionMatrix(){
+		return projectionMatrix;
 	}
 }
