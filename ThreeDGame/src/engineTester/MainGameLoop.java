@@ -37,22 +37,24 @@ public class MainGameLoop {
 		Loader loader = new Loader();
 
 		
-		//***********  Terrain Texture  *************//
+		//***********  Create Terrains  *************//
+		
+		List<Terrain> terrains = new ArrayList<Terrain>();
 		
 		TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("grassy"));
 		TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("dirt"));
 		TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("pinkFlowers"));
 		TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("path"));
-		
 		TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
-		
 		TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
-		
-		
-		//*******************************************//
 		
 		Terrain terrain = new Terrain(0, 0, loader, texturePack, blendMap, "heightmap");
 		
+		terrains.add(terrain);
+		//*******************************************//
+		
+		
+		//***************** Create Entities ***************//
 		
 		ModelData data = OBJFileLoader.loadOBJ("tree");
 		RawModel treeModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
@@ -121,6 +123,11 @@ public class MainGameLoop {
 			
 		}
 		
+		//***************************************************//
+		
+		
+		//***************** Create Lights *******************//
+		
 		List<Light> lights = new ArrayList<Light>();
 		lights.add(new Light(new Vector3f(3000, 5000, 3000), new Vector3f(0.3f, 0.3f, 0.3f)));
 		lights.add(new Light(new Vector3f(100, terrain.getHeightOfTerrain(100, 300)+10, 300), new Vector3f(2, 0, 0), new Vector3f(1, 0.01f, 0.002f)));
@@ -130,6 +137,8 @@ public class MainGameLoop {
 		entities.add(new Entity(lamp1, new Vector3f(100, terrain.getHeightOfTerrain(100, 300), 300), 0, 0, 0, 1));
 		entities.add(new Entity(lamp1, new Vector3f(200, terrain.getHeightOfTerrain(200, 300), 300), 0, 0, 0, 1));
 		entities.add(new Entity(lamp1, new Vector3f(300, terrain.getHeightOfTerrain(300, 300), 300), 0, 0, 0, 1));
+		
+		//****************************************************//
 		
 		RawModel playerModel = OBJLoader.loadObjModel("person", loader);
 		TexturedModel textdPlayer = new TexturedModel(playerModel, new ModelTexture(loader.loadTexture("playerTexture")));
@@ -151,18 +160,15 @@ public class MainGameLoop {
 		
 		while(!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
 			player.move(terrain);
-			camera.move();
-			
+			camera.move();			
 			picker.update();
+			
 			Vector3f terrainPoint = picker.getCurrentTerrainPoint();
 			System.out.println(terrainPoint);
-			renderer.processEntity(player);
-			renderer.processTerrain(terrain);
-			for(Entity entity:entities){
-				renderer.processEntity(entity);
-			}
 			
-			renderer.render(lights, camera);
+			renderer.renderScene(entities, terrains, lights, camera);
+			renderer.processEntity(player);
+			
 			guiRenderer.render(guis);
 			DisplayManager.updateDisplay();
 		}
