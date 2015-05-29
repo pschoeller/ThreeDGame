@@ -23,6 +23,9 @@ import textures.ModelTexture;
 import textures.TerrainTexture;
 import textures.TerrainTexturePack;
 import toolbox.MousePicker;
+import water.WaterRenderer;
+import water.WaterShader;
+import water.WaterTile;
 import entities.Camera;
 import entities.Entity;
 import entities.Light;
@@ -143,7 +146,7 @@ public class MainGameLoop {
 		RawModel playerModel = OBJLoader.loadObjModel("person", loader);
 		TexturedModel textdPlayer = new TexturedModel(playerModel, new ModelTexture(loader.loadTexture("playerTexture")));
 		
-		Player player = new Player(textdPlayer, new Vector3f(200, 0, 175), 0, 0, 0, 1);
+		Player player = new Player(textdPlayer, new Vector3f(75, 0, 100), 0, 0, 0, 1);
 		Camera camera = new Camera(player);
 		
 		
@@ -156,6 +159,11 @@ public class MainGameLoop {
 		GuiRenderer guiRenderer = new GuiRenderer(loader);
 		MasterRenderer renderer = new MasterRenderer(loader);
 		
+		WaterShader waterShader = new WaterShader();
+		WaterRenderer waterRenderer = new WaterRenderer(loader, waterShader, renderer.getProjectionMatrix());
+		List<WaterTile> waters = new ArrayList<WaterTile>();
+		waters.add(new WaterTile(75, 75, 0));
+		
 		MousePicker picker = new MousePicker(camera, renderer.getProjectionMatrix(), terrain);
 		
 		while(!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
@@ -163,16 +171,15 @@ public class MainGameLoop {
 			camera.move();			
 			picker.update();
 			
-			Vector3f terrainPoint = picker.getCurrentTerrainPoint();
-			System.out.println(terrainPoint);
-			
 			renderer.renderScene(entities, terrains, lights, camera);
+			waterRenderer.render(waters, camera);
 			renderer.processEntity(player);
 			
 			guiRenderer.render(guis);
 			DisplayManager.updateDisplay();
 		}
 		
+		waterShader.cleanUp();
 		guiRenderer.cleanUp();
 		renderer.cleanUp();
 		loader.cleanUp();
