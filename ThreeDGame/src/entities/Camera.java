@@ -95,4 +95,8 @@ public class Camera {
 			angleAroundPlayer -= angleChange;
 		}
 	}
+	
+	public void invertPitch(){
+		this.pitch = -pitch;
+	}
 }
