@@ -157,19 +157,13 @@ public class MainGameLoop {
 		MasterRenderer renderer = new MasterRenderer(loader);
 		
 		
+		WaterFrameBuffers buffers = new WaterFrameBuffers();
 		WaterShader waterShader = new WaterShader();
-		WaterRenderer waterRenderer = new WaterRenderer(loader, waterShader, renderer.getProjectionMatrix());
+		WaterRenderer waterRenderer = new WaterRenderer(loader, waterShader, renderer.getProjectionMatrix(), buffers);
 		List<WaterTile> waters = new ArrayList<WaterTile>();
 		WaterTile water = new WaterTile(75, 75, 0);
 		waters.add(water);
-		
-		WaterFrameBuffers buffers = new WaterFrameBuffers();
-		
-		List<GuiTexture> guis = new ArrayList<GuiTexture>();
-		GuiTexture refraction = new GuiTexture(buffers.getRefractionTexture(), new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
-		GuiTexture reflection = new GuiTexture(buffers.getReflectionTexture(), new Vector2f(-0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
-		guis.add(refraction);
-		guis.add(reflection);
+
 		
 		MousePicker picker = new MousePicker(camera, renderer.getProjectionMatrix(), terrain);
 		
@@ -198,7 +192,6 @@ public class MainGameLoop {
 			buffers.unbindCurrentFrameBuffer();
 			renderer.renderScene(entities, terrains, lights, camera, new Vector4f(0, -1, 0, 15));
 			waterRenderer.render(waters, camera);
-			guiRenderer.render(guis);
 			
 			DisplayManager.updateDisplay();
 		}
