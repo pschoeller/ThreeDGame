@@ -97,11 +97,11 @@ private static final float SIZE = 500f;
 	private void bindTextures(){
 		time += DisplayManager.getFrameTimeSeconds() * 1000;
 		time %= 24000;
-		int texture1;
+		int texture1 = texture;
 		int texture2;
-		float blendFactor;
+		float blendFactor = 0.0f;
 		
-		if(time >= 0 && time < 5000){
+		/*if(time >= 0 && time < 5000){
 			texture1 = nightTexture;
 			texture2 = nightTexture;
 			blendFactor = (time - 0)/(5000 - 0);
@@ -117,12 +117,12 @@ private static final float SIZE = 500f;
 			texture1 = texture;
 			texture2 = nightTexture;
 			blendFactor = (time - 21000)/(24000 - 21000);
-		}
+		}*/
 		
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, texture1);
-		GL13.glActiveTexture(GL13.GL_TEXTURE1);
-		GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, texture2);
+		//GL13.glActiveTexture(GL13.GL_TEXTURE1);
+		//GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, texture2);
 		shader.loadBlendFactor(blendFactor);
 	}
 }
