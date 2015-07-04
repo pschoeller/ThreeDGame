@@ -27,8 +27,8 @@ void main(void) {
 	refractTexCoords += totalDistortion;
 	refractTexCoords = clamp(refractTexCoords, 0.001, 0.999);
 	reflectTexCoords += totalDistortion;
-	reflectTexCoords.x = clamp(refractTexCoords, 0.001, 0.999);
-	reflectTexCoords.y = clamp(refractTexCoords, -0.999, -0.001);
+	reflectTexCoords.x = clamp(refractTexCoords.x, 0.001, 0.999);
+	reflectTexCoords.y = clamp(refractTexCoords.y, -0.999, -0.001);
 
 	vec4 reflectColor = texture(reflectionTexture, reflectTexCoords);
 	vec4 refractColor = texture(refractionTexture, refractTexCoords);
@@ -36,6 +36,6 @@ void main(void) {
 	
 
 	out_Color = mix(reflectColor, refractColor, 0.95f);
-	out_Color = mix(out_Color, vec4(0.0, 0.3, 0.5, 1.0), 0.2);
+	out_Color = mix(out_Color, vec4(0.0, 0.3, 0.5, 1.0), 0.4);
 
 }
