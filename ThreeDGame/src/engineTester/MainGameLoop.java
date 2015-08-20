@@ -134,10 +134,11 @@ public class MainGameLoop {
 		
 		
 		//***************** Create Lights *******************//
+		//Light sun = new Light(new Vector3f(3000, 5000, 3000), new Vector3f(1.0f, 0.0f, 0.0f));
 		
-		List<Light> lights = new ArrayList<Light>();/*
+		List<Light> lights = new ArrayList<Light>();
 		lights.add(new Light(new Vector3f(3000, 5000, 3000), new Vector3f(0.3f, 0.3f, 0.3f)));
-		lights.add(new Light(new Vector3f(100, terrain.getHeightOfTerrain(100, 300)+10, 300), new Vector3f(2, 0, 0), new Vector3f(1, 0.01f, 0.002f)));
+		/*lights.add(new Light(new Vector3f(100, terrain.getHeightOfTerrain(100, 300)+10, 300), new Vector3f(2, 0, 0), new Vector3f(1, 0.01f, 0.002f)));
 		lights.add(new Light(new Vector3f(200, terrain.getHeightOfTerrain(200, 300)+10, 300), new Vector3f(0, 2, 2), new Vector3f(1, 0.01f, 0.002f)));
 		lights.add(new Light(new Vector3f(300, terrain.getHeightOfTerrain(300, 300)+10, 300), new Vector3f(2, 2, 0), new Vector3f(1, 0.01f, 0.002f)));
 
@@ -152,6 +153,7 @@ public class MainGameLoop {
 		
 		Player player = new Player(textdPlayer, new Vector3f(75, 0, 10), 0, 0, 0, 1);
 		Camera camera = new Camera(player);
+		entities.add(player);
 		
 		GuiRenderer guiRenderer = new GuiRenderer(loader);
 		MasterRenderer renderer = new MasterRenderer(loader);
@@ -174,7 +176,7 @@ public class MainGameLoop {
 			
 			GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
 			
-			// render reflecction texture
+			// render reflection texture
 			buffers.bindReflectionFrameBuffer();
 			float distance = 2 * (camera.getPosition().y - water.getHeight());
 			camera.getPosition().y -= distance;
@@ -191,7 +193,7 @@ public class MainGameLoop {
 			GL11.glDisable(GL30.GL_CLIP_DISTANCE0);
 			buffers.unbindCurrentFrameBuffer();
 			renderer.renderScene(entities, terrains, lights, camera, new Vector4f(0, -1, 0, 15));
-			waterRenderer.render(waters, camera);
+			waterRenderer.render(waters, camera, lights.get(0));
 			
 			DisplayManager.updateDisplay();
 		}
