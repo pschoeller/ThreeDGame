@@ -6,6 +6,8 @@ import java.util.Random;
 
 import models.RawModel;
 import models.TexturedModel;
+import normalMappingObjConverter.NormalMappedObjLoader;
+import normalMappingRenderer.NormalMappingRenderer;
 import objConverter.ModelData;
 import objConverter.OBJFileLoader;
 
@@ -96,8 +98,16 @@ public class MainGameLoop {
 		flower.getTexture().setUseFakeLighting(true);
 		
 		List<Entity> entities = new ArrayList<Entity>();
-		Random random = new Random();
+		List<Entity> normalMapEntities = new ArrayList<Entity>();
 		
+		TexturedModel barrelModel = new TexturedModel(NormalMappedObjLoader.loadOBJ("barrel", loader), new ModelTexture(loader.loadTexture("barrel")));
+		barrelModel.getTexture().setNormalMap(loader.loadTexture("barrelNormal"));
+		barrelModel.getTexture().setShineDamper(10);
+		barrelModel.getTexture().setReflectivity(0.5f);
+		
+		normalMapEntities.add(new Entity(barrelModel, new Vector3f(75, 10, 5), 0, 0, 0, 1f));
+		
+		Random random = new Random();
 		for(int i=0; i<400; i++){
 			float x=0, y=0, z=0;
 			
@@ -181,18 +191,18 @@ public class MainGameLoop {
 			float distance = 2 * (camera.getPosition().y - water.getHeight());
 			camera.getPosition().y -= distance;
 			camera.invertPitch();
-			renderer.renderScene(entities, terrains, lights, camera, new Vector4f(0, 1, 0, -water.getHeight() + 1.0f));
+			renderer.renderScene(entities, normalMapEntities, terrains, lights, camera, new Vector4f(0, 1, 0, -water.getHeight() + 1.0f));
 			camera.getPosition().y += distance;
 			camera.invertPitch();
 			
 			// render refraction texture
 			buffers.bindRefractionFrameBuffer();
-			renderer.renderScene(entities, terrains, lights, camera, new Vector4f(0, -1, 0, water.getHeight()));
+			renderer.renderScene(entities, normalMapEntities, terrains, lights, camera, new Vector4f(0, -1, 0, water.getHeight()));
 			
 			// render to screen
 			GL11.glDisable(GL30.GL_CLIP_DISTANCE0);
 			buffers.unbindCurrentFrameBuffer();
-			renderer.renderScene(entities, terrains, lights, camera, new Vector4f(0, -1, 0, 15));
+			renderer.renderScene(entities, normalMapEntities, terrains, lights, camera, new Vector4f(0, -1, 0, 15));
 			waterRenderer.render(waters, camera, lights.get(0));
 			
 			DisplayManager.updateDisplay();

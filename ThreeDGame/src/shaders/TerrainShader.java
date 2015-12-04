@@ -127,6 +127,6 @@ public class TerrainShader extends ShaderProgram{
 	
 	
 	public void loadClipPlane(Vector4f plane){
-		super.load4DVector(location_plane, plane);
+		super.load4FVector(location_plane, plane);
 	}
 }
