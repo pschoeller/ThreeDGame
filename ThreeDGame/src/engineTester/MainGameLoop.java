@@ -1,5 +1,6 @@
 package engineTester;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -7,7 +8,6 @@ import java.util.Random;
 import models.RawModel;
 import models.TexturedModel;
 import normalMappingObjConverter.NormalMappedObjLoader;
-import normalMappingRenderer.NormalMappingRenderer;
 import objConverter.ModelData;
 import objConverter.OBJFileLoader;
 
@@ -36,26 +36,32 @@ import entities.Camera;
 import entities.Entity;
 import entities.Light;
 import entities.Player;
+import fontMeshCreator.FontType;
+import fontMeshCreator.GUIText;
+import fontRendering.TextMaster;
 import guis.GuiRenderer;
-import guis.GuiTexture;
 
 public class MainGameLoop {
 
 	public static void main(String[] args) {
+		
 		DisplayManager.createDisplay();
 		Loader loader = new Loader();
+		TextMaster.init(loader);
 
+		FontType font = new FontType(loader.loadTexture("NeverWinter_black", 0), new File("res/NeverWinter_black.fnt"));
+		GUIText text = new GUIText("This is sample text.", 1, font, new Vector2f(0.5f, 0.5f), 0.5f, true);
 		
 		//***********  Create Terrains  *************//
 		
 		List<Terrain> terrains = new ArrayList<Terrain>();
 		
-		TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("grassy"));
-		TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("dirt"));
-		TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("pinkFlowers"));
-		TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("path"));
+		TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("grassy", -0.4f));
+		TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("dirt", -0.4f));
+		TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("pinkFlowers", -0.4f));
+		TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("path", -0.4f));
 		TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
-		TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
+		TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendMap", -0.4f));
 		
 		Terrain terrain = new Terrain(0, 0, loader, texturePack, blendMap, "heightmap-01");
 		
@@ -67,24 +73,24 @@ public class MainGameLoop {
 		
 		ModelData data = OBJFileLoader.loadOBJ("tree");
 		RawModel treeModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
-		TexturedModel tree = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("tree")));
+		TexturedModel tree = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("tree", -0.4f)));
 		
 		data = OBJFileLoader.loadOBJ("lamp");
 		RawModel lampModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
-		TexturedModel lamp1 = new TexturedModel(lampModel, new ModelTexture(loader.loadTexture("lamp")));
+		TexturedModel lamp1 = new TexturedModel(lampModel, new ModelTexture(loader.loadTexture("lamp", -0.4f)));
 		
 		data = OBJFileLoader.loadOBJ("lowPolyTree");
 		RawModel lowPolyTreeModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
-		TexturedModel lowPolyTree = new TexturedModel(lowPolyTreeModel, new ModelTexture(loader.loadTexture("tree")));
+		TexturedModel lowPolyTree = new TexturedModel(lowPolyTreeModel, new ModelTexture(loader.loadTexture("tree", -0.4f)));
 		
 		data = OBJFileLoader.loadOBJ("grassModel");
 		RawModel grassModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
-		TexturedModel grass = new TexturedModel(grassModel, new ModelTexture(loader.loadTexture("grassTexture")));
+		TexturedModel grass = new TexturedModel(grassModel, new ModelTexture(loader.loadTexture("grassTexture", -0.4f)));
 		grass.getTexture().setHasTransparency(true);
 		grass.getTexture().setUseFakeLighting(true);
 		
 		data = OBJFileLoader.loadOBJ("fern");
-		ModelTexture fernTextureAtlas = new ModelTexture(loader.loadTexture("fern"));
+		ModelTexture fernTextureAtlas = new ModelTexture(loader.loadTexture("fern", -0.4f));
 		fernTextureAtlas.setNumberOfRows(2);
 		RawModel fernModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
 		TexturedModel fern = new TexturedModel(fernModel, fernTextureAtlas);
@@ -93,15 +99,15 @@ public class MainGameLoop {
 		
 		data = OBJFileLoader.loadOBJ("grassModel");
 		RawModel flowerModel = loader.loadToVAO(data.getVertices(), data.getTextureCoords(), data.getNormals(), data.getIndices());
-		TexturedModel flower = new TexturedModel(flowerModel, new ModelTexture(loader.loadTexture("flower")));
+		TexturedModel flower = new TexturedModel(flowerModel, new ModelTexture(loader.loadTexture("flower", -0.4f)));
 		flower.getTexture().setHasTransparency(true);
 		flower.getTexture().setUseFakeLighting(true);
 		
 		List<Entity> entities = new ArrayList<Entity>();
 		List<Entity> normalMapEntities = new ArrayList<Entity>();
 		
-		TexturedModel barrelModel = new TexturedModel(NormalMappedObjLoader.loadOBJ("barrel", loader), new ModelTexture(loader.loadTexture("barrel")));
-		barrelModel.getTexture().setNormalMap(loader.loadTexture("barrelNormal"));
+		TexturedModel barrelModel = new TexturedModel(NormalMappedObjLoader.loadOBJ("barrel", loader), new ModelTexture(loader.loadTexture("barrel", -0.4f)));
+		barrelModel.getTexture().setNormalMap(loader.loadTexture("barrelNormal", -0.4f));
 		barrelModel.getTexture().setShineDamper(10);
 		barrelModel.getTexture().setReflectivity(0.5f);
 		
@@ -159,7 +165,7 @@ public class MainGameLoop {
 		//****************************************************//
 		
 		RawModel playerModel = OBJLoader.loadObjModel("person", loader);
-		TexturedModel textdPlayer = new TexturedModel(playerModel, new ModelTexture(loader.loadTexture("playerTexture")));
+		TexturedModel textdPlayer = new TexturedModel(playerModel, new ModelTexture(loader.loadTexture("playerTexture", -0.4f)));
 		
 		Player player = new Player(textdPlayer, new Vector3f(75, 0, 10), 0, 0, 0, 1);
 		Camera camera = new Camera(player);
@@ -205,9 +211,13 @@ public class MainGameLoop {
 			renderer.renderScene(entities, normalMapEntities, terrains, lights, camera, new Vector4f(0, -1, 0, 15));
 			waterRenderer.render(waters, camera, lights.get(0));
 			
+			TextMaster.render();
+			
 			DisplayManager.updateDisplay();
 		}
 		
+		
+		TextMaster.cleanUp();
 		buffers.cleanUp();
 		waterShader.cleanUp();
 		guiRenderer.cleanUp();
