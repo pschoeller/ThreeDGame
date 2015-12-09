@@ -19,6 +19,8 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
 
+import particles.ParticleMaster;
+import particles.ParticleSystem;
 import renderEngine.DisplayManager;
 import renderEngine.Loader;
 import renderEngine.MasterRenderer;
@@ -48,10 +50,13 @@ public class MainGameLoop {
 		DisplayManager.createDisplay();
 		Loader loader = new Loader();
 		TextMaster.init(loader);
+		MasterRenderer renderer = new MasterRenderer(loader);
+		GuiRenderer guiRenderer = new GuiRenderer(loader);
+		ParticleMaster.init(loader, renderer.getProjectionMatrix());
 
 		FontType font = new FontType(loader.loadTexture("NeverWinter_DF", 0), new File("res/NeverWinter_DF.fnt"));
 		GUIText text = new GUIText("This is sample text.", 4, font, new Vector2f(0.5f, 0.5f), 0.5f, true);
-		
+				
 		//***********  Create Terrains  *************//
 		
 		List<Terrain> terrains = new ArrayList<Terrain>();
@@ -171,10 +176,6 @@ public class MainGameLoop {
 		Camera camera = new Camera(player);
 		entities.add(player);
 		
-		GuiRenderer guiRenderer = new GuiRenderer(loader);
-		MasterRenderer renderer = new MasterRenderer(loader);
-		
-		
 		WaterFrameBuffers buffers = new WaterFrameBuffers();
 		WaterShader waterShader = new WaterShader();
 		WaterRenderer waterRenderer = new WaterRenderer(loader, waterShader, renderer.getProjectionMatrix(), buffers);
@@ -185,10 +186,19 @@ public class MainGameLoop {
 		
 		MousePicker picker = new MousePicker(camera, renderer.getProjectionMatrix(), terrain);
 		
+		ParticleSystem system = new ParticleSystem(50, 25, 0.3f, 4, 1);
+		system.randomizeRotation();
+		system.setDirection(new Vector3f(0, 1, 0), 0.1f);
+		system.setLifeError(0.1f);
+		system.setSpeedError(0.4f);
+		system.setScaleError(0.8f);
+		
 		while(!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
 			player.move(terrain);
 			camera.move();			
-			picker.update();
+			picker.update();	
+			system.generateParticles(player.getPosition());
+			ParticleMaster.update();
 			
 			GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
 			
@@ -211,12 +221,14 @@ public class MainGameLoop {
 			renderer.renderScene(entities, normalMapEntities, terrains, lights, camera, new Vector4f(0, -1, 0, 15));
 			waterRenderer.render(waters, camera, lights.get(0));
 			
-			TextMaster.render();
+			ParticleMaster.renderParticles(camera);
 			
+			TextMaster.render();
 			DisplayManager.updateDisplay();
 		}
 		
 		
+		ParticleMaster.cleanUp();
 		TextMaster.cleanUp();
 		buffers.cleanUp();
 		waterShader.cleanUp();
