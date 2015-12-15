@@ -21,6 +21,7 @@ import org.lwjgl.util.vector.Vector4f;
 
 import particles.ParticleMaster;
 import particles.ParticleSystem;
+import particles.ParticleTexture;
 import renderEngine.DisplayManager;
 import renderEngine.Loader;
 import renderEngine.MasterRenderer;
@@ -116,7 +117,7 @@ public class MainGameLoop {
 		barrelModel.getTexture().setShineDamper(10);
 		barrelModel.getTexture().setReflectivity(0.5f);
 		
-		normalMapEntities.add(new Entity(barrelModel, new Vector3f(75, 10, 5), 0, 0, 0, 1f));
+		//normalMapEntities.add(new Entity(barrelModel, new Vector3f(75, 10, 5), 0, 0, 0, 1f));
 		
 		Random random = new Random();
 		for(int i=0; i<400; i++){
@@ -186,9 +187,11 @@ public class MainGameLoop {
 		
 		MousePicker picker = new MousePicker(camera, renderer.getProjectionMatrix(), terrain);
 		
-		ParticleSystem system = new ParticleSystem(50, 25, 0.3f, 4, 1);
+		ParticleTexture particleTexture  = new ParticleTexture(loader.loadTexture("particleStar", 0), 1);
+		
+		ParticleSystem system = new ParticleSystem(particleTexture, 50, 10, 1.0f, 4, 5);
 		system.randomizeRotation();
-		system.setDirection(new Vector3f(0, 1, 0), 0.1f);
+		system.setDirection(new Vector3f(0, 1, 0), 0.3f);
 		system.setLifeError(0.1f);
 		system.setSpeedError(0.4f);
 		system.setScaleError(0.8f);
@@ -197,8 +200,8 @@ public class MainGameLoop {
 			player.move(terrain);
 			camera.move();			
 			picker.update();	
-			system.generateParticles(player.getPosition());
-			ParticleMaster.update();
+			system.generateParticles(new Vector3f(55, 25, 15));
+			ParticleMaster.update(camera);
 			
 			GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
 			
@@ -223,7 +226,7 @@ public class MainGameLoop {
 			
 			ParticleMaster.renderParticles(camera);
 			
-			TextMaster.render();
+			//TextMaster.render();
 			DisplayManager.updateDisplay();
 		}
 		

@@ -3,7 +3,7 @@ package particles;
 import org.lwjgl.util.vector.Vector3f;
 
 import renderEngine.DisplayManager;
-
+/*
 public class SimpleParticleSystem {
 	
 	private float pps;
@@ -40,6 +40,7 @@ public class SimpleParticleSystem {
 		new Particle(new Vector3f(center), velocity, gravityComplient, lifeLength, 0, 1);
 	}
 	
-	
+
 
 }
+*/
