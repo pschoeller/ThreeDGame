@@ -187,7 +187,7 @@ public class MainGameLoop {
 		
 		MousePicker picker = new MousePicker(camera, renderer.getProjectionMatrix(), terrain);
 		
-		ParticleTexture particleTexture  = new ParticleTexture(loader.loadTexture("particleStar", 0), 1);
+		ParticleTexture particleTexture  = new ParticleTexture(loader.loadTexture("particleAtlas", 0), 4);
 		
 		ParticleSystem system = new ParticleSystem(particleTexture, 50, 10, 1.0f, 4, 5);
 		system.randomizeRotation();
