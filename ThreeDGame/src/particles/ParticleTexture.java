@@ -4,6 +4,7 @@ public class ParticleTexture{
 	
 	private int textureID;
 	private int numberOfRows;
+	private boolean additive;
 	
 	
 	public ParticleTexture(int textureID, int numberOfRows){
@@ -13,6 +14,7 @@ public class ParticleTexture{
     }
 
 
-	public int getTextureID(){ return textureID; }
-	public int getNumberOfRows(){ return numberOfRows; }
+	protected int getTextureID(){ return textureID; }
+	protected int getNumberOfRows(){ return numberOfRows; }
+	protected boolean usesAdditiveBlending(){ return additive; }
 }
