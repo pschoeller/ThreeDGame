@@ -43,6 +43,7 @@ import fontMeshCreator.FontType;
 import fontMeshCreator.GUIText;
 import fontRendering.TextMaster;
 import guis.GuiRenderer;
+import guis.GuiTexture;
 
 public class MainGameLoop {
 
@@ -51,8 +52,11 @@ public class MainGameLoop {
 		DisplayManager.createDisplay();
 		Loader loader = new Loader();
 		TextMaster.init(loader);
-		MasterRenderer renderer = new MasterRenderer(loader);
-		GuiRenderer guiRenderer = new GuiRenderer(loader);
+		RawModel playerModel = OBJLoader.loadObjModel("person", loader);
+		TexturedModel textdPlayer = new TexturedModel(playerModel, new ModelTexture(loader.loadTexture("playerTexture", -0.4f)));
+		Player player = new Player(textdPlayer, new Vector3f(75, 0, 10), 0, 0, 0, 1);
+		Camera camera = new Camera(player);
+		MasterRenderer renderer = new MasterRenderer(loader, camera);
 		ParticleMaster.init(loader, renderer.getProjectionMatrix());
 
 		FontType font = new FontType(loader.loadTexture("NeverWinter_DF", 0), new File("res/NeverWinter_DF.fnt"));
@@ -68,9 +72,7 @@ public class MainGameLoop {
 		TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("path", -0.4f));
 		TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
 		TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendMap", -0.4f));
-		
 		Terrain terrain = new Terrain(0, 0, loader, texturePack, blendMap, "heightmap-01");
-		
 		terrains.add(terrain);
 		//*******************************************//
 		
@@ -117,7 +119,7 @@ public class MainGameLoop {
 		barrelModel.getTexture().setShineDamper(10);
 		barrelModel.getTexture().setReflectivity(0.5f);
 		
-		//normalMapEntities.add(new Entity(barrelModel, new Vector3f(75, 10, 5), 0, 0, 0, 1f));
+		entities.add(new Entity(barrelModel, new Vector3f(75, 10, 5), 0, 0, 0, 1f));
 		
 		Random random = new Random();
 		for(int i=0; i<400; i++){
@@ -156,10 +158,10 @@ public class MainGameLoop {
 		
 		
 		//***************** Create Lights *******************//
-		//Light sun = new Light(new Vector3f(3000, 5000, 3000), new Vector3f(1.0f, 0.0f, 0.0f));
+		Light sun = new Light(new Vector3f(10000, 15000, -10000), new Vector3f(1.3f, 1.3f, 1.3f));
 		
 		List<Light> lights = new ArrayList<Light>();
-		lights.add(new Light(new Vector3f(3000, 5000, 3000), new Vector3f(0.9f, 0.9f, 0.9f)));
+		lights.add(sun);
 		/*lights.add(new Light(new Vector3f(100, terrain.getHeightOfTerrain(100, 300)+10, 300), new Vector3f(2, 0, 0), new Vector3f(1, 0.01f, 0.002f)));
 		lights.add(new Light(new Vector3f(200, terrain.getHeightOfTerrain(200, 300)+10, 300), new Vector3f(0, 2, 2), new Vector3f(1, 0.01f, 0.002f)));
 		lights.add(new Light(new Vector3f(300, terrain.getHeightOfTerrain(300, 300)+10, 300), new Vector3f(2, 2, 0), new Vector3f(1, 0.01f, 0.002f)));
@@ -170,11 +172,6 @@ public class MainGameLoop {
 		*/
 		//****************************************************//
 		
-		RawModel playerModel = OBJLoader.loadObjModel("person", loader);
-		TexturedModel textdPlayer = new TexturedModel(playerModel, new ModelTexture(loader.loadTexture("playerTexture", -0.4f)));
-		
-		Player player = new Player(textdPlayer, new Vector3f(75, 0, 10), 0, 0, 0, 1);
-		Camera camera = new Camera(player);
 		entities.add(player);
 		
 		WaterFrameBuffers buffers = new WaterFrameBuffers();
@@ -183,7 +180,11 @@ public class MainGameLoop {
 		List<WaterTile> waters = new ArrayList<WaterTile>();
 		WaterTile water = new WaterTile(75, 75, 0);
 		waters.add(water);
-
+		
+		List<GuiTexture> guiTextures = new ArrayList<GuiTexture>();
+		GuiTexture shadowMap = new GuiTexture(renderer.getShadowMapTexture(), new Vector2f(0.5f, 0.5f), new Vector2f(0.5f, 0.5f));
+		guiTextures.add(shadowMap);
+		GuiRenderer guiRenderer = new GuiRenderer(loader);
 		
 		MousePicker picker = new MousePicker(camera, renderer.getProjectionMatrix(), terrain);
 		
@@ -203,7 +204,9 @@ public class MainGameLoop {
 			system.generateParticles(new Vector3f(55, 25, 15));
 			ParticleMaster.update(camera);
 			
+			renderer.renderShadowMap(entities, sun);
 			GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
+			
 			
 			// render reflection texture
 			buffers.bindReflectionFrameBuffer();
@@ -222,9 +225,9 @@ public class MainGameLoop {
 			GL11.glDisable(GL30.GL_CLIP_DISTANCE0);
 			buffers.unbindCurrentFrameBuffer();
 			renderer.renderScene(entities, normalMapEntities, terrains, lights, camera, new Vector4f(0, -1, 0, 15));
-			waterRenderer.render(waters, camera, lights.get(0));
-			
+			waterRenderer.render(waters, camera, sun);
 			ParticleMaster.renderParticles(camera);
+			guiRenderer.render(guiTextures);
 			
 			//TextMaster.render();
 			DisplayManager.updateDisplay();

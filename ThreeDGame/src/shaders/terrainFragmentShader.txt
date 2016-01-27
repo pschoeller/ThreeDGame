@@ -4,6 +4,7 @@ in vec2 pass_textureCoords;
 in vec3 surfaceNormal;
 in vec3 toLightVector[4];
 in vec3 toCameraVector;
+in vec4 shadowCoords;
 in float visibility;
 
 out vec4 out_Color;
@@ -13,6 +14,7 @@ uniform sampler2D rTexture;
 uniform sampler2D gTexture;
 uniform sampler2D bTexture;
 uniform sampler2D blendMap;
+uniform sampler2D shadowMap;
 
 const int MAX_RENDER_LIGHTS=4;
 
@@ -23,6 +25,12 @@ uniform float reflectivity;
 uniform vec3 skyColor;
 
 void main(void){
+	float shadowValue = texture(shadowMap, shadowCoords.xy).r;
+	float shadeFactor = 1.0;
+	if(shadowValue < shadowCoords.z){
+		shadeFactor = 0.5;
+	}
+	
 	vec4 blendMapColor = texture(blendMap, pass_textureCoords);
 	
 	float backTextureAmount = 1 - (blendMapColor.r + blendMapColor.g + blendMapColor.b);

@@ -15,6 +15,7 @@ import org.lwjgl.util.vector.Vector4f;
 
 import shaders.StaticShader;
 import shaders.TerrainShader;
+import shadows.ShadowMapMasterRenderer;
 import skybox.SkyboxRenderer;
 import terrains.Terrain;
 import entities.Camera;
@@ -23,7 +24,7 @@ import entities.Light;
 
 public class MasterRenderer {
 	
-	private static final float FOV = 70;
+	private static final float FOV = 80;
 	private static final float NEAR_PLANE = 0.1f;
 	private static final float FAR_PLANE = 1000;
 	public static final float RED = 0.6f;
@@ -48,16 +49,22 @@ public class MasterRenderer {
 	private List<Terrain> terrains = new ArrayList<Terrain>();
 	
 	private SkyboxRenderer skyboxRenderer;
+	private ShadowMapMasterRenderer shadowMapRenderer;
 	
 	
-	public MasterRenderer(Loader loader){
+	public MasterRenderer(Loader loader, Camera camera){
 		enableCulling();
 		createProjectionMatrix();
 		renderer = new EntityRenderer(shader, projectionMatrix);
 		terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
 		skyboxRenderer = new SkyboxRenderer(loader, projectionMatrix);
 		normalMapRenderer = new NormalMappingRenderer(projectionMatrix);
+		shadowMapRenderer = new ShadowMapMasterRenderer(camera);
 	}
+	
+	public static float getFOV(){ return FOV; }
+	public static float getNearPlane(){ return NEAR_PLANE; } 
+	public static float getFarPlane(){ return FAR_PLANE; } 
 	
 	
 	public static void enableCulling(){
@@ -152,6 +159,22 @@ public class MasterRenderer {
 	
 	
 	private void createProjectionMatrix(){
+    	projectionMatrix = new Matrix4f();
+		float aspectRatio = (float) Display.getWidth() / (float) Display.getHeight();
+		float y_scale = (float) ((1f / Math.tan(Math.toRadians(FOV / 2f))));
+		float x_scale = y_scale / aspectRatio;
+		float frustum_length = FAR_PLANE - NEAR_PLANE;
+
+		projectionMatrix.m00 = x_scale;
+		projectionMatrix.m11 = y_scale;
+		projectionMatrix.m22 = -((FAR_PLANE + NEAR_PLANE) / frustum_length);
+		projectionMatrix.m23 = -1;
+		projectionMatrix.m32 = -((2 * NEAR_PLANE * FAR_PLANE) / frustum_length);
+		projectionMatrix.m33 = 0;
+    }
+	
+	
+	/*private void createProjectionMatrix(){
 		float aspectRatio = (float) Display.getWidth()/(float) Display.getHeight();
 		float y_scale = (float) ((1f / Math.tan(Math.toRadians(FOV/2f))) * aspectRatio);
 		float x_scale = y_scale / aspectRatio;
@@ -164,6 +187,20 @@ public class MasterRenderer {
 		projectionMatrix.m23 = -1;
 		projectionMatrix.m32 = -((2 * NEAR_PLANE * FAR_PLANE) / frustum_length);
 		projectionMatrix.m33 = 0;
+	}*/
+	
+	
+	public void renderShadowMap(List<Entity> entityList, Light sun){
+		for(Entity entity : entityList){
+			processEntity(entity);
+		}
+		shadowMapRenderer.render(entities, sun);
+		entities.clear();
+	}
+	
+	
+	public int getShadowMapTexture(){
+		return shadowMapRenderer.getShadowMap();
 	}
 	
 	
@@ -171,6 +208,7 @@ public class MasterRenderer {
 		shader.cleanUp();
 		terrainShader.cleanUp();
 		normalMapRenderer.cleanUp();
+		shadowMapRenderer.cleanUp();
 	}
 	
 	
