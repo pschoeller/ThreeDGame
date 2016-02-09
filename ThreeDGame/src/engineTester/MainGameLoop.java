@@ -227,7 +227,7 @@ public class MainGameLoop {
 			renderer.renderScene(entities, normalMapEntities, terrains, lights, camera, new Vector4f(0, -1, 0, 15));
 			waterRenderer.render(waters, camera, sun);
 			ParticleMaster.renderParticles(camera);
-			guiRenderer.render(guiTextures);
+			//guiRenderer.render(guiTextures);
 			
 			//TextMaster.render();
 			DisplayManager.updateDisplay();

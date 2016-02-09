@@ -28,6 +28,7 @@ public class ShadowShader extends ShaderProgram {
 	@Override
 	protected void bindAttributes() {
 		super.bindAttributes(0, "in_position");
+		super.bindAttributes(1, "in_textureCoords");
 	}
 
 }
