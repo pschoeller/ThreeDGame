@@ -59,7 +59,7 @@ public class MainGameLoop {
 		MasterRenderer renderer = new MasterRenderer(loader, camera);
 		ParticleMaster.init(loader, renderer.getProjectionMatrix());
 
-		FontType font = new FontType(loader.loadTexture("NeverWinter_DF", 0), new File("res/NeverWinter_DF.fnt"));
+		FontType font = new FontType(loader.loadTexture("NeverWinter_DF", 0), "NeverWinter_DF");
 		GUIText text = new GUIText("This is sample text.", 4, font, new Vector2f(0.5f, 0.5f), 0.5f, true);
 				
 		//***********  Create Terrains  *************//
