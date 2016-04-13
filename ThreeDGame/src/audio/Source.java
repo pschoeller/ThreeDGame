@@ -9,6 +9,9 @@ public class Source{
 	
 	public Source(){
 		sourceId = AL10.alGenSources();
+		AL10.alSourcef(sourceId, AL10.AL_ROLLOFF_FACTOR, 2);
+		AL10.alSourcef(sourceId, AL10.AL_REFERENCE_DISTANCE, 6);
+		AL10.alSourcef(sourceId, AL10.AL_MAX_DISTANCE, 50);
 	}
 	
 	
