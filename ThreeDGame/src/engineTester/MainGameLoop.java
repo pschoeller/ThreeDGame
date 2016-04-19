@@ -22,6 +22,8 @@ import org.lwjgl.util.vector.Vector4f;
 import particles.ParticleMaster;
 import particles.ParticleSystem;
 import particles.ParticleTexture;
+import postProcessing.Fbo;
+import postProcessing.PostProcessing;
 import renderEngine.DisplayManager;
 import renderEngine.Loader;
 import renderEngine.MasterRenderer;
@@ -197,6 +199,9 @@ public class MainGameLoop {
 		system.setSpeedError(0.4f);
 		system.setScaleError(0.8f);
 		
+		Fbo fbo = new Fbo(Display.getWidth(), Display.getHeight(), Fbo.DEPTH_RENDER_BUFFER);
+		PostProcessing.init(loader);
+		
 		while(!Display.isCloseRequested() && !Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
 			player.move(terrain);
 			camera.move();			
@@ -224,16 +229,21 @@ public class MainGameLoop {
 			// render to screen
 			GL11.glDisable(GL30.GL_CLIP_DISTANCE0);
 			buffers.unbindCurrentFrameBuffer();
+			fbo.bindFrameBuffer();
 			renderer.renderScene(entities, normalMapEntities, terrains, lights, camera, new Vector4f(0, -1, 0, 15));
 			waterRenderer.render(waters, camera, sun);
 			ParticleMaster.renderParticles(camera);
-			//guiRenderer.render(guiTextures);
+			fbo.unbindFrameBuffer();
+			PostProcessing.doPostProcessing(fbo.getColourTexture());
 			
+			//guiRenderer.render(guiTextures);
 			//TextMaster.render();
+			
 			DisplayManager.updateDisplay();
 		}
 		
-		
+		PostProcessing.cleanUp();
+		fbo.cleanUp();
 		ParticleMaster.cleanUp();
 		TextMaster.cleanUp();
 		buffers.cleanUp();
