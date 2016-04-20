@@ -1,6 +1,5 @@
 package engineTester;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -74,7 +73,7 @@ public class MainGameLoop {
 		TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("path", -0.4f));
 		TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
 		TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendMap", -0.4f));
-		Terrain terrain = new Terrain(0, 0, loader, texturePack, blendMap, "heightmap-01");
+		Terrain terrain = new Terrain(0, 0, loader, texturePack, blendMap, "heightmap");
 		terrains.add(terrain);
 		//*******************************************//
 		
@@ -121,9 +120,9 @@ public class MainGameLoop {
 		barrelModel.getTexture().setShineDamper(10);
 		barrelModel.getTexture().setReflectivity(0.5f);
 		
-		entities.add(new Entity(barrelModel, new Vector3f(75, 10, 5), 0, 0, 0, 1f));
+		//entities.add(new Entity(barrelModel, new Vector3f(75, 10, 5), 0, 0, 0, 1f));
 		
-		Random random = new Random();
+		Random random = new Random();/*
 		for(int i=0; i<400; i++){
 			float x=0, y=0, z=0;
 			
@@ -154,7 +153,7 @@ public class MainGameLoop {
 			y = terrain.getHeightOfTerrain(x, z);
 			entities.add(new Entity(fern, random.nextInt(4), new Vector3f(x, y, z), 0, 0, 0, 0.9f));
 			
-		}
+		}*/
 		
 		//***************************************************//
 		

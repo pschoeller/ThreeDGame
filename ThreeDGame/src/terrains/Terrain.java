@@ -49,12 +49,12 @@ public class Terrain {
 		
 		BufferedImage image = null;
 		try {
-			image = ImageIO.read(new File("res/" + heightMap + ".png"));
+			image = ImageIO.read(new File("resources/res/" + heightMap + ".png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		int VERTEX_COUNT = 128; //image.getHeight();
+		int VERTEX_COUNT = image.getHeight();
 		heights = new float [VERTEX_COUNT][VERTEX_COUNT];
 		
 		int count = VERTEX_COUNT * VERTEX_COUNT;
