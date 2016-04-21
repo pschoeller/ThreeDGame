@@ -55,7 +55,7 @@ public class MainGameLoop {
 		TextMaster.init(loader);
 		RawModel playerModel = OBJLoader.loadObjModel("person", loader);
 		TexturedModel textdPlayer = new TexturedModel(playerModel, new ModelTexture(loader.loadTexture("playerTexture", -0.4f)));
-		Player player = new Player(textdPlayer, new Vector3f(75, 0, 10), 0, 0, 0, 1);
+		Player player = new Player(textdPlayer, new Vector3f(75, 0, 75), 0, 0, 0, 1);
 		Camera camera = new Camera(player);
 		MasterRenderer renderer = new MasterRenderer(loader, camera);
 		ParticleMaster.init(loader, renderer.getProjectionMatrix());
@@ -191,12 +191,12 @@ public class MainGameLoop {
 		
 		ParticleTexture particleTexture  = new ParticleTexture(loader.loadTexture("particleAtlas", 0), 4);
 		
-		ParticleSystem system = new ParticleSystem(particleTexture, 50, 10, 1.0f, 4, 5);
-		system.randomizeRotation();
-		system.setDirection(new Vector3f(0, 1, 0), 0.3f);
-		system.setLifeError(0.1f);
-		system.setSpeedError(0.4f);
-		system.setScaleError(0.8f);
+//		ParticleSystem system = new ParticleSystem(particleTexture, 50, 10, 1.0f, 4, 5);
+//		system.randomizeRotation();
+//		system.setDirection(new Vector3f(0, 1, 0), 0.3f);
+//		system.setLifeError(0.1f);
+//		system.setSpeedError(0.4f);
+//		system.setScaleError(0.8f);
 		
 		Fbo fbo = new Fbo(Display.getWidth(), Display.getHeight(), Fbo.DEPTH_RENDER_BUFFER);
 		PostProcessing.init(loader);
@@ -205,7 +205,7 @@ public class MainGameLoop {
 			player.move(terrain);
 			camera.move();			
 			picker.update();	
-			system.generateParticles(new Vector3f(55, 25, 15));
+//			system.generateParticles(new Vector3f(55, 25, 15));
 			ParticleMaster.update(camera);
 			
 			renderer.renderShadowMap(entities, sun);
