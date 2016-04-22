@@ -122,38 +122,38 @@ public class MainGameLoop {
 		
 		//entities.add(new Entity(barrelModel, new Vector3f(75, 10, 5), 0, 0, 0, 1f));
 		
-		Random random = new Random();/*
-		for(int i=0; i<400; i++){
+		Random random = new Random();
+		for(int i=0; i<20; i++){
 			float x=0, y=0, z=0;
 			
-			x = random.nextFloat()*800;
-			z = random.nextFloat()*799;
+			x = random.nextFloat()*150;
+			z = random.nextFloat()*149;
 			y = terrain.getHeightOfTerrain(x, z);
 			entities.add(new Entity(tree, new Vector3f(x, y, z), 0, 0, 0, 1));
 			
 			if(i % 2 == 0){
-				x = random.nextFloat()*800;
-				z = random.nextFloat()*799;
+				x = random.nextFloat()*150;
+				z = random.nextFloat()*149;
 				y = terrain.getHeightOfTerrain(x, z);
 				entities.add(new Entity(lowPolyTree, new Vector3f(x, y, z), 0, 0, 0, 1));
 			}
 			
-			x = random.nextFloat()*800;
-			z = random.nextFloat()*799;
+			x = random.nextFloat()*150;
+			z = random.nextFloat()*149;
 			y = terrain.getHeightOfTerrain(x, z);
 			entities.add(new Entity(grass, new Vector3f(x, y, z), 0, 0, 0, 1));
 			
-			x = random.nextFloat()*800;
-			z = random.nextFloat()*799;
+			x = random.nextFloat()*150;
+			z = random.nextFloat()*149;
 			y = terrain.getHeightOfTerrain(x, z);
 			entities.add(new Entity(flower, new Vector3f(x, y, z), 0, 0, 0, 0.6f));
 			
-			x = random.nextFloat()*800;
-			z = random.nextFloat()*799;
+			x = random.nextFloat()*150;
+			z = random.nextFloat()*149;
 			y = terrain.getHeightOfTerrain(x, z);
 			entities.add(new Entity(fern, random.nextInt(4), new Vector3f(x, y, z), 0, 0, 0, 0.9f));
 			
-		}*/
+		}
 		
 		//***************************************************//
 		
