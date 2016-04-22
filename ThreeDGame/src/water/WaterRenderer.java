@@ -35,7 +35,7 @@ public class WaterRenderer {
 		this.shader = shader;
 		this.fbos = fbos;
 		dudvTexture = loader.loadTexture(DUDV_MAP, -0.4f);
-		dudvTexture = loader.loadTexture(NORMAL_MAP, -0.4f);
+		normalMap = loader.loadTexture(NORMAL_MAP, -0.4f);
 		shader.start();
 		shader.connectTextureUnits();
 		shader.loadProjectionMatrix(projectionMatrix);
