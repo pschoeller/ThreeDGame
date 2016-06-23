@@ -11,6 +11,8 @@ out vec4 out_Color;
 const int MAX_RENDER_LIGHTS=4;
 
 uniform sampler2D textureSampler;
+uniform sampler2D specularMap;
+uniform float usesSpecularMap;
 uniform vec3 lightColor[MAX_RENDER_LIGHTS];
 uniform vec3 attenuation[MAX_RENDER_LIGHTS];
 uniform float shineDamper;
@@ -50,6 +52,14 @@ void main(void){
 	vec4 textureColor = texture(textureSampler, pass_textureCoords);
 	if(textureColor.a < 0.5){
 		discard;
+	}
+	
+	if(usesSpecularMap > 0.5){
+		vec4 mapInfo = texture(specularMap, pass_textureCoords);
+		totalSpecular *= mapInfo.r;
+		if(mapInfo.g > 0.5){
+			totalDiffuse = vec3(1.0);
+		}
 	}
 	
 	out_Color = vec4(totalDiffuse, 1.0) * textureColor + vec4(totalSpecular, 1.0);

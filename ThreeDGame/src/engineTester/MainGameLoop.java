@@ -19,7 +19,6 @@ import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
 
 import particles.ParticleMaster;
-import particles.ParticleSystem;
 import particles.ParticleTexture;
 import postProcessing.Fbo;
 import postProcessing.PostProcessing;
@@ -117,10 +116,14 @@ public class MainGameLoop {
 		
 		TexturedModel barrelModel = new TexturedModel(NormalMappedObjLoader.loadOBJ("barrel", loader), new ModelTexture(loader.loadTexture("barrel", -0.4f)));
 		barrelModel.getTexture().setNormalMap(loader.loadTexture("barrelNormal", -0.4f));
+		barrelModel.getTexture().setSpecularMap(loader.loadTexture("barrelS", 0));
 		barrelModel.getTexture().setShineDamper(10);
 		barrelModel.getTexture().setReflectivity(0.5f);
-		
 		//entities.add(new Entity(barrelModel, new Vector3f(75, 10, 5), 0, 0, 0, 1f));
+		
+		TexturedModel lanternModel = new TexturedModel(NormalMappedObjLoader.loadOBJ("lantern", loader), new ModelTexture(loader.loadTexture("lantern", 0)));
+		lanternModel.getTexture().setSpecularMap(loader.loadTexture("lanternS", -0.4f));
+		entities.add(new Entity(lanternModel, new Vector3f(75, terrain.getHeightOfTerrain(75, 5), 5), 0, 0, 0, 1f));
 		
 		Random random = new Random();
 		for(int i=0; i<20; i++){
@@ -172,6 +175,18 @@ public class MainGameLoop {
 		entities.add(new Entity(lamp1, new Vector3f(300, terrain.getHeightOfTerrain(300, 300), 300), 0, 0, 0, 1));
 		*/
 		//****************************************************//
+		
+		
+		TexturedModel cherryTree = new TexturedModel(NormalMappedObjLoader.loadOBJ("cherry", loader), new ModelTexture(loader.loadTexture("cherry", -0.4f)));
+		cherryTree.getTexture().setHasTransparency(true);
+		cherryTree.getTexture().setShineDamper(10);
+		cherryTree.getTexture().setReflectivity(0.5f);
+		cherryTree.getTexture().setSpecularMap(loader.loadTexture("cherryS", 0));
+		
+		entities.add(new Entity(cherryTree, random.nextInt(4), new Vector3f(10, terrain.getHeightOfTerrain(10, 10), 10), 0, 0, 0, 0.9f));
+		
+		
+		
 		
 		entities.add(player);
 		
