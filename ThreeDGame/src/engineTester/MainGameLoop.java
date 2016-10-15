@@ -249,8 +249,7 @@ public class MainGameLoop {
 			waterRenderer.render(waters, camera, sun);
 			ParticleMaster.renderParticles(camera);
 			multisampleFbo.unbindFrameBuffer();
-			multisampleFbo.resolveFbo(outputFbo);
-			//multisampleFbo.resolveToScreen();
+			multisampleFbo.resolveToFbo(GL30.GL_COLOR_ATTACHMENT1, outputFbo);
 			PostProcessing.doPostProcessing(outputFbo.getColourTexture());
 			
 			//guiRenderer.render(guiTextures);
